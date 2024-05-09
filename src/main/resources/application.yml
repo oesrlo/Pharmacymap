@@ -30,38 +30,52 @@ spring:
     url: jdbc:mariadb://localhost:3306/pharmacy-map
     username: ${SPRING_DATASOURCE_USERNAME}
     password: ${SPRING_DATASOURCE_PASSWORD}
+  #      data-locations: /Users/rlo.x/Downloads/Pharmacymap/database/init/direction.sql
+
   redis:
     host: localhost
     port: 6379
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: validate
     show-sql: true
+    defer-datasource-initialization: true
+  sql:
+    init:
+      mode: always
+
 
 pharmacy:
-  recommendation:
+  map:
     base:
       url: http://localhost:8080/dir/
+
 
 ---
 spring:
   config:
     activate:
-      on-profile: prod
+      on-profile: local
   datasource:
     driver-class-name: org.mariadb.jdbc.Driver
-    url: jdbc:mariadb://pharmacy-recommendation-database:3306/pharmacy-recommendation
+    url: jdbc:mariadb://pharmacy-map-database:3306/pharmacy-map
     username: ${SPRING_DATASOURCE_USERNAME}
     password: ${SPRING_DATASOURCE_PASSWORD}
+
+
   redis:
-    host: pharmacy-recommendation-redis
+    host: pharmacy-map-redis
     port: 6379
   jpa:
     hibernate:
       ddl-auto: validate # prod 배포시 validate
     show-sql: true
+    defer-datasource-initialization: true
+  sql:
+    init:
+      mode: always
 
 pharmacy:
-  recommendation:
+  map:
     base:
       url: http://3.38.78.187/dir/
